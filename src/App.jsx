@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import atlaixLogo from "../resources/atlaix logo.png";
-import heroImage from "../resources/hero section.webp";
+import heroImage from "../resources/hero section.png";
 import detectionEngineImage from "../resources/detection engine.webp";
 import safeScanImage from "../resources/safe scan.webp";
 import walletIntelligenceImage from "../resources/wallet intelligence.webp";
 import watchlistImage from "../resources/watchlist.webp";
+import intelligenceMonitorImage from "../resources/intelligence monitor.webp";
+import aiMarketAnalystImage from "../resources/ai market analyst.webp";
 
 const docsUrl = "https://docs.atlaix.com/";
 const betaUrl = "https://beta.atlaix.com";
@@ -14,14 +16,13 @@ const navItems = [
   ["Product", "#product"],
   ["Intelligence", "#intelligence"],
   ["Workflow", "#workflow"],
-  ["Roadmap", "#roadmap"],
   ["Docs", docsUrl],
 ];
 
 const problemPoints = [
-  ["Scattered research", "Charts, scanners, explorers, wallet tools, and social feeds all hold different pieces of the same market story."],
-  ["Missing context", "Raw metrics show movement, but users still have to decide whether the movement has quality, risk, or useful confirmation."],
-  ["Slow decisions", "Crypto markets move faster than manual research workflows. Atlaix helps users focus on the changes that deserve attention."],
+  ["Connected Intelligence", "Every intelligence engine works together to provide context rather than isolated data."],
+  ["AI-Powered Analysis", "Understand complex market activity without manually interpreting every metric."],
+  ["Professional Workflow", "Designed to simplify digital asset research from discovery to decision-making."],
 ];
 
 const workflowSteps = [
@@ -35,43 +36,51 @@ const workflowSteps = [
 const engines = [
   {
     title: "Detection Engine",
-    meta: "Signal layer",
-    body: "Continuously monitors market activity to surface meaningful events and explain potential significance.",
-    visual: "linear-gradient(135deg, #142b3a 0%, #101722 48%, #07090e 100%)",
+    meta: "Market events",
+    body: "Discover meaningful market events before they become obvious.",
+    visual: "linear-gradient(135deg, oklch(28% 0.09 167) 0%, oklch(16% 0.052 158) 48%, oklch(8% 0.032 154) 100%)",
     image: detectionEngineImage,
   },
   {
     title: "SafeScan",
-    meta: "Risk review",
-    body: "Evaluates risk profile, concentration, liquidity, contract quality, and structural concerns.",
-    visual: "linear-gradient(135deg, #3a2418 0%, #17110d 52%, #080706 100%)",
+    meta: "Risk intelligence",
+    body: "Understand holder structure, liquidity, and token risk.",
+    visual: "linear-gradient(135deg, oklch(30% 0.08 138) 0%, oklch(15% 0.046 154) 52%, oklch(8% 0.03 150) 100%)",
     image: safeScanImage,
   },
   {
     title: "Wallet Intelligence",
-    meta: "Behavior context",
-    body: "Adds context around wallet behavior, accumulation patterns, portfolio movement, and significant participants.",
-    visual: "linear-gradient(135deg, #242b46 0%, #111522 52%, #080910 100%)",
+    meta: "On-chain behavior",
+    body: "Track wallets and understand on-chain behavior.",
+    visual: "linear-gradient(135deg, oklch(26% 0.075 178) 0%, oklch(14% 0.045 160) 52%, oklch(8% 0.03 156) 100%)",
     image: walletIntelligenceImage,
   },
   {
     title: "Watchlists",
     meta: "Research workspace",
-    body: "Turns important assets into a personal intelligence workspace for ongoing research.",
-    visual: "linear-gradient(135deg, #2d2f1d 0%, #17180f 48%, #080807 100%)",
+    body: "Create personalized intelligence workspaces for the assets you follow.",
+    visual: "linear-gradient(135deg, oklch(31% 0.09 132) 0%, oklch(15% 0.047 148) 48%, oklch(8% 0.03 150) 100%)",
     image: watchlistImage,
   },
   {
     title: "Intelligence Monitor",
-    meta: "Ongoing updates",
-    body: "Watches assets and delivers updates when new detections or risk changes occur.",
-    visual: "linear-gradient(135deg, #17343a 0%, #0e181b 54%, #07090a 100%)",
+    meta: "Alerts",
+    body: "Receive notifications whenever important market events occur.",
+    visual: "linear-gradient(135deg, oklch(29% 0.085 170) 0%, oklch(15% 0.048 160) 54%, oklch(8% 0.03 154) 100%)",
+    image: intelligenceMonitorImage,
   },
   {
     title: "AI Market Analyst",
-    meta: "Plain-language context",
-    body: "Connects engine outputs and explains market conditions in plain language.",
-    visual: "linear-gradient(135deg, #34233b 0%, #17111c 52%, #08070a 100%)",
+    meta: "Interpretation layer",
+    body: "Transform complex market data into clear, contextual intelligence.",
+    visual: "linear-gradient(135deg, oklch(27% 0.078 145) 0%, oklch(14% 0.047 156) 52%, oklch(8% 0.03 150) 100%)",
+    image: aiMarketAnalystImage,
+  },
+  {
+    title: "Smart Money Intelligence (Coming Soon)",
+    meta: "Advanced flows",
+    body: "Track institutional wallets, capital rotation, and significant on-chain movements to understand where sophisticated market participants are positioning.",
+    visual: "linear-gradient(135deg, oklch(27% 0.075 160) 0%, oklch(14% 0.045 154) 52%, oklch(8% 0.03 150) 100%)",
   },
 ];
 
@@ -82,72 +91,63 @@ const useCases = [
   ["Researchers and analysts", "Use connected intelligence to support deeper asset research without rebuilding context from scratch."],
 ];
 
-const roadmap = [
-  ["Foundation", "Core modules: Overview, Detection Engine, SafeScan, Wallet Intelligence, Watchlists, Intelligence Monitor, and AI Market Analyst."],
-  ["Intelligence Expansion", "Planned work includes expanded detection coverage, advanced smart money intelligence, narrative intelligence, stronger AI reasoning, and monitoring automation."],
-  ["Institutional Intelligence", "Future capabilities may include portfolio intelligence, cross-chain intelligence, advanced research tools, institutional analytics, and enterprise solutions."],
-];
-
 const faqs = [
   [
     "What is Atlaix?",
-    "Atlaix is an AI-powered crypto intelligence platform. It processes on-chain activity, wallet behavior, capital flows, and vetted social sentiment to generate structured insights. The goal is to help users understand why market movements occur, not just observe price changes.",
+    "Atlaix is an AI-powered market intelligence platform for digital assets.",
   ],
   [
-    "How is Atlaix different from other analytical tools?",
-    "Atlaix is an AI-powered crypto intelligence platform. It processes on-chain activity, wallet behavior, capital flows, and vetted social sentiment to generate structured insights. The goal is to help users understand why market movements occur, not just observe price changes.",
+    "Who is Atlaix for?",
+    "Traders, investors, researchers, analysts, and anyone seeking deeper market intelligence.",
+  ],
+  [
+    "How does AI work inside Atlaix?",
+    "AI acts as the interpretation layer across the platform, explaining market activity and providing contextual analysis rather than functioning as a generic chatbot.",
+  ],
+  [
+    "What makes Atlaix different?",
+    "Instead of offering isolated analytics, Atlaix connects market detection, wallet intelligence, risk analysis, monitoring, and AI interpretation into a unified workflow.",
+  ],
+  [
+    "Is Atlaix available today?",
+    "Atlaix is currently in Private Beta with early user onboarding in progress.",
   ],
 ];
 
-function usePointerSpotlight() {
-  useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+function useScrollReveal() {
+  useLayoutEffect(() => {
+    const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
+    document.documentElement.classList.add("reveal-ready");
 
-    if (reduceMotion.matches) {
+    if (!revealItems.length) {
       return undefined;
     }
 
-    const root = document.documentElement;
-    let frameId = 0;
-    let currentX = window.innerWidth * 0.5;
-    let currentY = window.innerHeight * 0.16;
-    let targetX = currentX;
-    let targetY = currentY;
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const syncSpotlight = () => {
-      currentX += (targetX - currentX) * 0.18;
-      currentY += (targetY - currentY) * 0.18;
-      root.style.setProperty("--spotlight-x", `${currentX}px`);
-      root.style.setProperty("--spotlight-y", `${currentY}px`);
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+      return undefined;
+    }
 
-      if (Math.abs(targetX - currentX) > 0.2 || Math.abs(targetY - currentY) > 0.2) {
-        frameId = window.requestAnimationFrame(syncSpotlight);
-        return;
-      }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.16,
+      },
+    );
 
-      frameId = 0;
-    };
+    revealItems.forEach((item) => observer.observe(item));
 
-    const moveSpotlight = (event) => {
-      targetX = event.clientX;
-      targetY = event.clientY;
-
-      if (!frameId) {
-        frameId = window.requestAnimationFrame(syncSpotlight);
-      }
-    };
-
-    root.style.setProperty("--spotlight-x", `${currentX}px`);
-    root.style.setProperty("--spotlight-y", `${currentY}px`);
-
-    window.addEventListener("pointermove", moveSpotlight, { passive: true });
-    window.addEventListener("pointerdown", moveSpotlight, { passive: true });
-
-    return () => {
-      window.removeEventListener("pointermove", moveSpotlight);
-      window.removeEventListener("pointerdown", moveSpotlight);
-      window.cancelAnimationFrame(frameId);
-    };
+    return () => observer.disconnect();
   }, []);
 }
 
@@ -213,18 +213,9 @@ function TelegramIcon() {
   );
 }
 
-function RoadmapIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 21s6-5.43 6-11a6 6 0 1 0-12 0c0 5.57 6 11 6 11Z" />
-      <path d="M12 12.25a2.25 2.25 0 1 0 0-4.5 2.25 2.25 0 0 0 0 4.5Z" />
-    </svg>
-  );
-}
-
 function SectionHeader({ eyebrow, title, children, align = "center" }) {
   return (
-    <div className={`section-header ${align}`}>
+    <div className={`section-header ${align}`} data-reveal>
       {eyebrow ? <Badge>{eyebrow}</Badge> : null}
       <h2>{title}</h2>
       {children ? <p>{children}</p> : null}
@@ -264,11 +255,11 @@ function HeroSection() {
   return (
     <section className="hero page" id="top">
       <div className="hero-copy">
-        <h1>Crypto market intelligence that explains what matters.</h1>
-        <p>
+        <h1 data-reveal style={{ "--reveal-delay": "80ms" }}>Crypto market intelligence that explains what matters.</h1>
+        <p data-reveal style={{ "--reveal-delay": "160ms" }}>
           Atlaix helps traders, researchers, and digital asset teams understand market activity through detection, risk analysis, wallet intelligence, monitoring, and AI-powered interpretation.
         </p>
-        <div className="hero-actions">
+        <div className="hero-actions" data-reveal style={{ "--reveal-delay": "240ms" }}>
           <a className="button primary" href="#waitlist">
             Join Waitlist
             <ButtonArrow />
@@ -277,9 +268,11 @@ function HeroSection() {
             Read Docs
           </a>
         </div>
-        <p className="hero-note">Access is available by invitation while Atlaix validates the platform with early users.</p>
+        <p className="hero-note" data-reveal style={{ "--reveal-delay": "320ms" }}>Access is available by invitation while Atlaix validates the platform with early users.</p>
       </div>
-      <HeroVideo />
+      <div data-reveal="scale" style={{ "--reveal-delay": "260ms" }}>
+        <HeroVideo />
+      </div>
     </section>
   );
 }
@@ -291,8 +284,8 @@ function ProblemSection() {
         Atlaix brings market intelligence into one workflow, so users spend less time gathering information and more time understanding what changed.
       </SectionHeader>
       <div className="problem-grid">
-        {problemPoints.map(([title, body]) => (
-          <article className="problem-point" key={title}>
+        {problemPoints.map(([title, body], index) => (
+          <article className="problem-point" key={title} data-reveal style={{ "--reveal-delay": `${index * 90}ms` }}>
             <h3>{title}</h3>
             <p>{body}</p>
           </article>
@@ -311,8 +304,7 @@ function WorkflowSection() {
         </SectionHeader>
         <div className="workflow-line">
           {workflowSteps.map(([title, body], index) => (
-            <article className="workflow-step" key={title}>
-              <span>{String(index + 1).padStart(2, "0")}</span>
+            <article className="workflow-step" key={title} data-reveal style={{ "--reveal-delay": `${index * 70}ms` }}>
               <h3>{title}</h3>
               <p>{body}</p>
             </article>
@@ -344,10 +336,10 @@ function IntelligenceEngines() {
 
   return (
     <section className="engines page" id="intelligence">
-      <SectionHeader eyebrow="Intelligence stack" title="A modular system for market understanding.">
-        Atlaix connects detection, validation, monitoring, wallet context, and AI interpretation into one research workflow.
+      <SectionHeader eyebrow="Intelligence stack" title="One Platform. Complete Market Intelligence.">
+        Atlaix combines multiple intelligence engines into one connected workflow, eliminating the need to switch between numerous crypto tools.
       </SectionHeader>
-      <div className="engine-carousel">
+      <div className="engine-carousel" data-reveal>
         <div className="engine-tabs" role="tablist" aria-label="Atlaix intelligence modules">
           {engines.map(({ title, body }, index) => {
             const isActive = index === activeEngine;
@@ -376,6 +368,7 @@ function IntelligenceEngines() {
         </div>
         <div
           className={`engine-visual ${currentEngine.image ? "has-image" : ""}`}
+          key={currentEngine.title}
           id="engine-visual-panel"
           role="tabpanel"
           aria-labelledby={`engine-tab-${activeEngine}`}
@@ -391,7 +384,7 @@ function IntelligenceEngines() {
           ) : (
             <div>
               <strong>{currentEngine.title}</strong>
-              <p>Temporary visual fill. Replace this panel with the product image for this module when ready.</p>
+              <p>{currentEngine.body}</p>
             </div>
           )}
         </div>
@@ -423,37 +416,10 @@ function UseCasesSection() {
         Atlaix helps users decide what deserves more research, what needs caution, and what changed while they were focused elsewhere.
       </SectionHeader>
       <div className="use-case-list">
-        {useCases.map(([title, body]) => (
-          <article className="use-case" key={title}>
+        {useCases.map(([title, body], index) => (
+          <article className="use-case" key={title} data-reveal style={{ "--reveal-delay": `${index * 80}ms` }}>
             <h3>{title}</h3>
             <p>{body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function RoadmapSection() {
-  return (
-    <section className="roadmap page" id="roadmap">
-      <div className="status-copy">
-        <Badge tone="success">Current stage</Badge>
-        <h2>Currently in Private Beta.</h2>
-        <p>
-          Atlaix is feature-complete for its initial release. Current development focuses on stability, performance, user experience, market validation, and strengthening the intelligence engines before broader public access.
-        </p>
-      </div>
-      <div className="roadmap-list">
-        {roadmap.map(([phase, body], index) => (
-          <article className="roadmap-row" key={phase}>
-            <span className="roadmap-icon">
-              <RoadmapIcon />
-            </span>
-            <div>
-              <h3>{phase}</h3>
-              <p>{body}</p>
-            </div>
           </article>
         ))}
       </div>
@@ -469,7 +435,7 @@ function FAQSection() {
       <SectionHeader eyebrow="FAQ" title="Frequently asked questions.">
         Clear answers for traders, researchers, and teams evaluating Atlaix.
       </SectionHeader>
-      <div className="faq-list">
+      <div className="faq-list" data-reveal>
         {faqs.map(([question, answer], index) => {
           const isActive = activeFaq === index;
           const answerId = `faq-answer-${index}`;
@@ -500,12 +466,12 @@ function FAQSection() {
 function FinalCTA() {
   return (
     <section className="final-cta page" id="waitlist">
-      <div>
+      <div data-reveal>
         <Badge tone="success">Private Beta</Badge>
         <h2>Understand digital asset markets with more context.</h2>
         <p>Join the Atlaix waitlist for Private Beta access and follow the development of an AI-powered market intelligence platform.</p>
       </div>
-      <div className="hero-actions">
+      <div className="hero-actions" data-reveal style={{ "--reveal-delay": "120ms" }}>
         <a className="button primary" href={betaUrl}>
           Join Waitlist
           <ButtonArrow />
@@ -589,7 +555,7 @@ function Footer() {
 }
 
 function App() {
-  usePointerSpotlight();
+  useScrollReveal();
 
   return (
     <main>
@@ -600,7 +566,6 @@ function App() {
       <WorkflowSection />
       <IntelligenceEngines />
       <UseCasesSection />
-      <RoadmapSection />
       <FAQSection />
       <FinalCTA />
       <Footer />

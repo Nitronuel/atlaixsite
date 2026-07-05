@@ -1,23 +1,22 @@
 :root {
   color-scheme: dark;
-  --bg: oklch(9% 0.018 285);
-  --bg-soft: oklch(12% 0.018 285);
-  --surface: oklch(15% 0.021 282);
-  --surface-2: oklch(18% 0.024 278);
-  --ink: oklch(96% 0.008 285);
-  --muted: oklch(74% 0.018 282);
-  --dim: oklch(55% 0.018 282);
-  --line: color-mix(in oklch, var(--ink) 11%, transparent);
-  --line-strong: color-mix(in oklch, var(--ink) 18%, transparent);
-  --accent: oklch(86% 0.17 153);
-  --accent-soft: oklch(70% 0.11 153);
+  --bg: #020b05;
+  --bg-soft: #031307;
+  --surface: #051c0c;
+  --surface-2: #062712;
+  --ink: oklch(96% 0.018 142);
+  --muted: oklch(78% 0.045 146);
+  --dim: oklch(60% 0.048 148);
+  --line: color-mix(in oklch, var(--accent) 18%, transparent);
+  --line-strong: color-mix(in oklch, var(--accent) 30%, transparent);
+  --accent: #4ade80;
+  --accent-soft: #22c55e;
+  --accent-deep: #052d13;
+  --mono: "Geist Mono Variable", ui-monospace, monospace;
   --danger: oklch(71% 0.16 28);
   --max: 1180px;
   --radius: 14px;
-  --spotlight-x: 50vw;
-  --spotlight-y: 16vh;
-  --spotlight-core: 21rem;
-  --spotlight-halo: 29rem;
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
   background: var(--bg);
   color: var(--ink);
   font-family: "Geist Variable", "Segoe UI", system-ui, sans-serif;
@@ -80,9 +79,12 @@ main {
   z-index: -2;
   pointer-events: none;
   background:
-    radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), color-mix(in oklch, var(--ink) 9%, transparent), transparent var(--spotlight-core)),
-    radial-gradient(circle at var(--spotlight-x) var(--spotlight-y), color-mix(in oklch, var(--ink) 4%, transparent), transparent var(--spotlight-halo)),
-    linear-gradient(180deg, oklch(11% 0.021 285) 0%, var(--bg) 42%, var(--bg) 100%);
+    radial-gradient(circle at 10% 10%, rgba(34, 197, 94, 0.18) 0%, rgba(2, 11, 5, 0) 44%),
+    radial-gradient(circle at 90% 50%, rgba(34, 197, 94, 0.16) 0%, rgba(2, 11, 5, 0) 43%),
+    radial-gradient(circle at 50% 35%, rgba(34, 197, 94, 0.13) 0%, rgba(2, 11, 5, 0) 38%),
+    radial-gradient(circle at 18% 82%, rgba(34, 197, 94, 0.14) 0%, rgba(2, 11, 5, 0) 44%),
+    radial-gradient(circle at 58% 88%, rgba(22, 163, 74, 0.11) 0%, rgba(2, 11, 5, 0) 38%),
+    var(--bg);
 }
 
 body::before {
@@ -92,10 +94,22 @@ body::before {
   z-index: -1;
   pointer-events: none;
   background:
-    linear-gradient(color-mix(in oklch, var(--ink) 3.2%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklch, var(--ink) 3.2%, transparent) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: linear-gradient(to bottom, black 0%, transparent 70%);
+    radial-gradient(circle at 50% 0%, rgba(34, 197, 94, 0.05), transparent 48rem),
+    linear-gradient(180deg, rgba(2, 11, 5, 0) 0%, rgba(2, 11, 5, 0.42) 100%);
+  mask-image: linear-gradient(to bottom, black 0%, transparent 82%);
+}
+
+@media (max-width: 1023px) {
+  .ambient {
+    background:
+      radial-gradient(circle at 50% 28%, rgba(34, 197, 94, 0.09) 0%, transparent 58%),
+      radial-gradient(circle at 18% 76%, rgba(22, 163, 74, 0.08) 0%, transparent 45%),
+      var(--bg);
+  }
+
+  body::before {
+    background: linear-gradient(180deg, rgba(2, 11, 5, 0) 0%, rgba(2, 11, 5, 0.34) 100%);
+  }
 }
 
 .page {
@@ -159,12 +173,33 @@ body::before {
 
 .nav-links a,
 .footer-links a {
+  position: relative;
   transition: color 180ms ease;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+  height: 1px;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0;
+  scale: 0 1;
+  transform-origin: center;
+  transition: opacity 180ms ease, scale 220ms var(--ease-premium);
 }
 
 .nav-links a:hover,
 .footer-links a:hover {
   color: var(--ink);
+}
+
+.nav-links a:hover::after {
+  opacity: 1;
+  scale: 1 1;
 }
 
 .nav-button,
@@ -180,24 +215,25 @@ body::before {
   font-weight: 670;
   line-height: 1;
   white-space: nowrap;
-  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
 .nav-button,
 .button.primary {
-  color: oklch(11% 0.018 285);
-  background: var(--ink);
+  color: oklch(12% 0.04 158);
+  background: var(--accent);
 }
 
 .button.secondary {
   color: var(--ink);
   border: 1px solid var(--line-strong);
-  background: color-mix(in oklch, var(--ink) 5%, transparent);
+  background: color-mix(in oklch, var(--accent) 8%, transparent);
 }
 
 .button:hover,
 .nav-button:hover {
   transform: translateY(-1px);
+  box-shadow: 0 14px 32px color-mix(in oklch, var(--accent) 22%, transparent);
 }
 
 .button-arrow {
@@ -232,16 +268,16 @@ body::before {
   border: 1px solid var(--line);
   border-radius: 999px;
   color: var(--muted);
-  background: color-mix(in oklch, var(--ink) 4%, transparent);
+  background: color-mix(in oklch, var(--accent) 7%, transparent);
   font-size: 0.78rem;
   font-weight: 650;
   line-height: 1;
 }
 
 .badge.success {
-  color: var(--ink);
+  color: color-mix(in oklch, var(--accent) 84%, white);
   border-color: var(--line-strong);
-  background: color-mix(in oklch, var(--ink) 5%, transparent);
+  background: color-mix(in oklch, var(--accent) 10%, transparent);
 }
 
 .hero {
@@ -263,7 +299,6 @@ body::before {
 
 .hero-copy {
   max-width: 980px;
-  animation: riseIn 760ms cubic-bezier(0.19, 1, 0.22, 1) both;
 }
 
 .section-header.left {
@@ -294,7 +329,6 @@ h3 {
 .hero-copy p,
 .section-header p,
 .chapter-copy p,
-.status-copy p,
 .final-cta p,
 .footer p {
   max-width: 700px;
@@ -323,7 +357,10 @@ h3 {
   border-radius: 0;
   background: transparent;
   box-shadow: none;
-  animation: riseIn 900ms 120ms cubic-bezier(0.19, 1, 0.22, 1) both;
+}
+
+.hero > [data-reveal="scale"] {
+  width: 100%;
 }
 
 .hero-video-frame img {
@@ -393,8 +430,7 @@ h3 {
   text-align: center;
 }
 
-.screenshot-label,
-.workflow-step span {
+.screenshot-label {
   color: color-mix(in oklch, var(--accent) 72%, white);
   font-family: "Geist Mono Variable", ui-monospace, monospace;
   font-size: 0.74rem;
@@ -417,36 +453,56 @@ h3 {
 .problem,
 .engines,
 .use-cases,
-.roadmap,
 .faq,
 .final-cta {
   padding-block: 118px;
+}
+
+.problem {
+  padding-bottom: 64px;
 }
 
 .problem-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 58px;
-  border-block: 1px solid var(--line);
 }
 
 .problem-point {
+  position: relative;
   min-height: 245px;
   display: grid;
-  align-content: start;
+  align-content: center;
   gap: 16px;
   padding: 30px;
-  border-right: 1px solid var(--line);
 }
 
-.problem-point:last-child {
-  border-right: 0;
+.problem-point[data-reveal]::after {
+  scale: 1 0;
+  transform-origin: center;
+  transition: scale 720ms var(--ease-premium);
+  transition-delay: calc(var(--reveal-delay, 0ms) + 160ms);
+}
+
+.problem-point[data-reveal].is-visible::after {
+  scale: 1 1;
+}
+
+.problem-point:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 0;
+  bottom: auto;
+  transform: translateY(-50%);
+  width: 1px;
+  height: min(150px, calc(100% - 60px));
+  background: linear-gradient(180deg, transparent, color-mix(in oklch, white 58%, transparent), transparent);
 }
 
 .problem-point p,
 .workflow-step p,
 .use-case p,
-.roadmap-row p,
 .faq-item p,
 .legal {
   color: var(--muted);
@@ -454,14 +510,13 @@ h3 {
 }
 
 .workflow-band {
-  border-block: 1px solid var(--line);
   background:
-    radial-gradient(circle at 50% 0%, color-mix(in oklch, var(--ink) 7%, transparent), transparent 28rem),
-    color-mix(in oklch, var(--ink) 1.8%, transparent);
+    radial-gradient(circle at 50% 24%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 30rem),
+    linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--accent-deep) 14%, transparent) 32%, color-mix(in oklch, var(--accent-deep) 16%, transparent) 72%, transparent 100%);
 }
 
 .workflow-band .page {
-  padding-block: 118px;
+  padding-block: 68px 118px;
 }
 
 .workflow-line {
@@ -475,18 +530,18 @@ h3 {
 .workflow-step {
   position: relative;
   z-index: 1;
-  min-height: 268px;
+  min-height: 220px;
   display: grid;
   align-content: start;
-  gap: 16px;
-  padding: 24px;
-  border: 1px solid var(--line);
+  gap: 14px;
+  padding: 24px 22px;
+  border: 0;
   border-radius: var(--radius);
   background:
-    radial-gradient(circle at 50% 0%, color-mix(in oklch, var(--ink) 5.5%, transparent), transparent 11rem),
-    linear-gradient(180deg, color-mix(in oklch, var(--ink) 4%, transparent), color-mix(in oklch, var(--ink) 1.8%, transparent)),
+    radial-gradient(circle at 50% 100%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 11rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--ink) 2%, transparent), color-mix(in oklch, var(--accent) 7%, transparent)),
     var(--bg-soft);
-  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+  transition: background 220ms ease, transform 220ms var(--ease-premium), box-shadow 220ms ease;
 }
 
 .workflow-step:nth-child(even) {
@@ -494,32 +549,25 @@ h3 {
 }
 
 .workflow-step:hover {
-  border-color: color-mix(in oklch, var(--ink) 24%, transparent);
+  transform: translateY(-4px);
   background:
-    radial-gradient(circle at 50% 0%, color-mix(in oklch, var(--ink) 8%, transparent), transparent 11rem),
-    linear-gradient(180deg, color-mix(in oklch, var(--ink) 5%, transparent), color-mix(in oklch, var(--ink) 2%, transparent)),
+    radial-gradient(circle at 50% 100%, color-mix(in oklch, var(--accent) 14%, transparent), transparent 11rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--ink) 2.4%, transparent), color-mix(in oklch, var(--accent) 9%, transparent)),
     var(--bg-soft);
+  box-shadow: 0 18px 50px color-mix(in oklch, var(--accent-deep) 30%, transparent);
 }
 
-.workflow-step span {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border: 1px solid color-mix(in oklch, var(--ink) 24%, transparent);
-  border-radius: 10px;
-  background: color-mix(in oklch, var(--ink) 5%, transparent);
-  color: color-mix(in oklch, var(--ink) 82%, transparent);
+.workflow-step:nth-child(even):hover {
+  transform: translateY(24px);
 }
 
 .workflow-step h3 {
-  margin-top: 12px;
+  margin-top: 0;
   font-size: 1.2rem;
 }
 
 .split-copy,
-.chapter,
-.roadmap {
+.chapter {
   display: grid;
   grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1.12fr);
   gap: clamp(36px, 7vw, 78px);
@@ -537,10 +585,10 @@ h3 {
 .engine-tabs {
   display: grid;
   align-content: start;
-  border-top: 1px solid var(--line);
 }
 
 .engine-tab {
+  position: relative;
   width: 100%;
   display: grid;
   grid-template-columns: 38px minmax(0, 1fr);
@@ -549,9 +597,15 @@ h3 {
   color: var(--muted);
   text-align: left;
   border: 0;
-  border-bottom: 1px solid var(--line);
   background: transparent;
   cursor: pointer;
+  border-radius: 12px;
+  transition: background 220ms ease, color 180ms ease, translate 220ms var(--ease-premium);
+}
+
+.engine-tab:hover {
+  translate: 4px 0;
+  background: color-mix(in oklch, var(--accent) 4%, transparent);
 }
 
 .engine-tab span {
@@ -583,12 +637,16 @@ h3 {
   color: var(--ink);
 }
 
+.engine-tab.active {
+  background: color-mix(in oklch, var(--accent) 7%, transparent);
+}
+
 .engine-tab.active span {
-  color: color-mix(in oklch, var(--ink) 72%, transparent);
+  color: color-mix(in oklch, var(--accent) 78%, white);
 }
 
 .engine-tab:focus-visible {
-  outline: 2px solid color-mix(in oklch, var(--ink) 44%, transparent);
+  outline: 2px solid color-mix(in oklch, var(--accent) 52%, transparent);
   outline-offset: 5px;
 }
 
@@ -603,12 +661,13 @@ h3 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
-    radial-gradient(circle at 82% 16%, color-mix(in oklch, var(--ink) 18%, transparent), transparent 12rem),
+    radial-gradient(circle at 82% 16%, color-mix(in oklch, var(--accent) 22%, transparent), transparent 12rem),
     var(--engine-fill);
   box-shadow:
-    inset 0 1px 0 color-mix(in oklch, var(--ink) 9%, transparent),
-    0 24px 70px color-mix(in oklch, black 42%, transparent);
-  transition: background 220ms ease, border-color 220ms ease;
+    inset 0 1px 0 color-mix(in oklch, var(--accent) 15%, transparent),
+    0 24px 70px color-mix(in oklch, var(--accent-deep) 38%, transparent);
+  animation: enginePanelIn 420ms var(--ease-premium) both;
+  transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
 .engine-visual.has-image {
@@ -622,6 +681,7 @@ h3 {
   height: 100%;
   display: block;
   object-fit: cover;
+  animation: engineImageIn 540ms var(--ease-premium) both;
 }
 
 .engine-visual.has-image::after {
@@ -673,19 +733,19 @@ h3 {
   color: var(--ink);
   border: 1px solid var(--line);
   border-radius: 50%;
-  background: color-mix(in oklch, var(--ink) 4%, transparent);
+  background: color-mix(in oklch, var(--accent) 7%, transparent);
   cursor: pointer;
   transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
 }
 
 .engine-controls button:hover {
-  border-color: color-mix(in oklch, var(--ink) 26%, transparent);
-  background: color-mix(in oklch, var(--ink) 8%, transparent);
+  border-color: color-mix(in oklch, var(--accent) 38%, transparent);
+  background: color-mix(in oklch, var(--accent) 12%, transparent);
   transform: translateY(-1px);
 }
 
 .engine-controls button:focus-visible {
-  outline: 2px solid color-mix(in oklch, var(--ink) 44%, transparent);
+  outline: 2px solid color-mix(in oklch, var(--accent) 52%, transparent);
   outline-offset: 4px;
 }
 
@@ -699,9 +759,9 @@ h3 {
   border: 1px solid var(--line);
   border-radius: 999px;
   background:
-    radial-gradient(circle at 50% 0%, color-mix(in oklch, var(--ink) 7%, transparent), transparent 5rem),
-    color-mix(in oklch, var(--ink) 3.2%, transparent);
-  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--ink) 6%, transparent);
+    radial-gradient(circle at 50% 0%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 5rem),
+    color-mix(in oklch, var(--accent) 6%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in oklch, var(--accent) 10%, transparent);
 }
 
 .engine-control-status span {
@@ -724,56 +784,9 @@ h3 {
   inset: 0;
   display: block;
   border-radius: inherit;
-  background: var(--ink);
+  background: var(--accent);
   transform-origin: left center;
   animation: engineProgress 3000ms linear both;
-}
-
-.roadmap-row {
-  display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 22px;
-  align-items: start;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.roadmap-row .roadmap-icon {
-  width: 38px;
-  height: 38px;
-  display: inline-grid;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: color-mix(in oklch, var(--ink) 4%, transparent);
-  color: var(--ink);
-}
-
-.roadmap-icon svg {
-  width: 22px;
-  height: 22px;
-  display: block;
-}
-
-.roadmap-icon path {
-  stroke: currentColor;
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.roadmap-row h3 {
-  margin-bottom: 12px;
-  color: var(--ink);
-  font-size: 1.05rem;
-  line-height: 1.2;
-  letter-spacing: -0.018em;
-}
-
-.roadmap-row p {
-  max-width: 620px;
-  color: var(--muted);
-  line-height: 1.64;
 }
 
 .chapter {
@@ -781,7 +794,6 @@ h3 {
 }
 
 .chapter + .chapter {
-  border-top: 1px solid var(--line);
 }
 
 .chapter-copy {
@@ -790,15 +802,13 @@ h3 {
   gap: 18px;
 }
 
-.chapter-copy h2,
-.status-copy h2 {
+.chapter-copy h2 {
   font-size: 3.45rem;
 }
 
 .use-case-list {
   display: grid;
   margin-top: 58px;
-  border-top: 1px solid var(--line);
 }
 
 .use-case {
@@ -806,41 +816,33 @@ h3 {
   grid-template-columns: 280px minmax(0, 1fr);
   gap: 34px;
   padding: 26px 0;
-  border-bottom: 1px solid var(--line);
+  transition: color 180ms ease, transform 220ms var(--ease-premium);
 }
 
-.status-copy {
-  position: sticky;
-  top: 118px;
-  display: grid;
-  justify-items: start;
-  gap: 18px;
-  text-align: left;
+.use-case:hover {
+  transform: translateX(4px);
 }
 
-.roadmap-list {
-  display: grid;
-  overflow: hidden;
-  border-top: 1px solid var(--line);
-  background: transparent;
+.use-case:hover h3 {
+  color: var(--ink);
+}
+
+.use-case:hover p {
+  color: color-mix(in oklch, var(--muted) 86%, white);
 }
 
 .faq-list {
   display: grid;
-  width: 100%;
+  width: min(100%, 940px);
   margin-top: 58px;
-  border-top: 1px solid var(--line);
-}
-
-.faq-item {
-  border-bottom: 1px solid var(--line);
+  margin-inline: auto;
 }
 
 .faq-item button {
   width: 100%;
   display: grid;
-  grid-template-columns: 54px minmax(0, 1fr) 34px;
-  gap: clamp(22px, 4vw, 54px);
+  grid-template-columns: 46px minmax(0, 1fr) 34px;
+  gap: clamp(18px, 3vw, 42px);
   align-items: start;
   padding: 30px 0;
   color: var(--ink);
@@ -873,8 +875,8 @@ h3 {
   justify-self: end;
   border: 1px solid var(--line);
   border-radius: 50%;
-  background: color-mix(in oklch, var(--ink) 4%, transparent);
-  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+  background: color-mix(in oklch, var(--accent) 7%, transparent);
+  transition: border-color 180ms ease, background 180ms ease, transform 220ms var(--ease-premium);
 }
 
 .faq-item button i::before,
@@ -897,7 +899,8 @@ h3 {
 
 .faq-item.active button i {
   border-color: var(--line-strong);
-  background: color-mix(in oklch, var(--ink) 7%, transparent);
+  background: color-mix(in oklch, var(--accent) 12%, transparent);
+  transform: rotate(180deg);
 }
 
 .faq-item.active button i::after {
@@ -909,8 +912,12 @@ h3 {
   transform: translateY(-1px);
 }
 
+.faq-item.active button:hover i {
+  transform: translateY(-1px) rotate(180deg);
+}
+
 .faq-item button:focus-visible {
-  outline: 2px solid color-mix(in oklch, var(--ink) 44%, transparent);
+  outline: 2px solid color-mix(in oklch, var(--accent) 52%, transparent);
   outline-offset: 4px;
 }
 
@@ -918,14 +925,14 @@ h3 {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  transition: grid-template-rows 220ms ease, opacity 180ms ease;
+  transition: grid-template-rows 240ms var(--ease-premium), opacity 180ms ease;
 }
 
 .faq-answer p {
   max-width: 820px;
   min-height: 0;
   overflow: hidden;
-  margin-left: calc(54px + clamp(22px, 4vw, 54px));
+  margin-left: calc(46px + clamp(18px, 3vw, 42px));
   padding: 0 64px 0 0;
   color: var(--muted);
   font-size: 1.02rem;
@@ -950,11 +957,10 @@ h3 {
   position: relative;
   overflow: hidden;
   padding: 76px max(24px, calc((100vw - var(--max)) / 2)) 38px;
-  border-top: 1px solid var(--line);
   background:
-    radial-gradient(circle at 18% 0%, color-mix(in oklch, var(--ink) 6%, transparent), transparent 30rem),
-    radial-gradient(circle at 82% 18%, color-mix(in oklch, var(--accent) 7%, transparent), transparent 24rem),
-    linear-gradient(180deg, color-mix(in oklch, var(--ink) 1.5%, var(--bg)) 0%, var(--bg) 100%);
+    radial-gradient(circle at 18% 0%, color-mix(in oklch, var(--accent) 10%, transparent), transparent 30rem),
+    radial-gradient(circle at 82% 18%, color-mix(in oklch, var(--accent-soft) 12%, transparent), transparent 24rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--accent-deep) 18%, var(--bg)) 0%, var(--bg) 100%);
 }
 
 .footer::before {
@@ -963,8 +969,8 @@ h3 {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(color-mix(in oklch, var(--ink) 2.5%, transparent) 1px, transparent 1px),
-    linear-gradient(90deg, color-mix(in oklch, var(--ink) 2.5%, transparent) 1px, transparent 1px);
+    linear-gradient(color-mix(in oklch, var(--accent) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--accent) 4%, transparent) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: linear-gradient(to bottom, black, transparent 72%);
   opacity: 0.42;
@@ -1020,7 +1026,7 @@ h3 {
   place-items: center;
   border: 1px solid var(--line);
   border-radius: 10px;
-  background: color-mix(in oklch, var(--ink) 3.5%, transparent);
+  background: color-mix(in oklch, var(--accent) 6%, transparent);
   color: var(--muted);
   font-size: 0.88rem;
   font-weight: 760;
@@ -1044,7 +1050,7 @@ svg[fill="none"].footer-icon path {
 .footer-social-icons a:hover,
 .footer-contact:hover span {
   border-color: var(--line-strong);
-  background: color-mix(in oklch, var(--ink) 6%, transparent);
+  background: color-mix(in oklch, var(--accent) 11%, transparent);
   color: var(--ink);
   transform: translateY(-1px);
 }
@@ -1096,7 +1102,7 @@ svg[fill="none"].footer-icon path {
   width: 5px;
   height: 5px;
   border-radius: 999px;
-  background: var(--ink);
+  background: var(--accent);
 }
 
 .footer-contact:hover,
@@ -1111,7 +1117,6 @@ svg[fill="none"].footer-icon path {
   gap: 28px;
   margin-top: 64px;
   padding-top: 24px;
-  border-top: 1px solid var(--line);
 }
 
 .footer-bottom p {
@@ -1119,6 +1124,54 @@ svg[fill="none"].footer-icon path {
   color: color-mix(in oklch, var(--muted) 58%, transparent) !important;
   font-size: 0.86rem !important;
   line-height: 1.6 !important;
+}
+
+html.reveal-ready [data-reveal] {
+  opacity: 0;
+  translate: 0 18px;
+  scale: 1;
+  filter: blur(8px);
+  transition:
+    opacity 660ms var(--ease-premium),
+    translate 660ms var(--ease-premium),
+    scale 660ms var(--ease-premium),
+    filter 660ms var(--ease-premium);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+html.reveal-ready [data-reveal="scale"] {
+  translate: 0 14px;
+  scale: 0.985;
+}
+
+html.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  filter: blur(0);
+}
+
+html.reveal-ready .workflow-step[data-reveal] {
+  transition:
+    opacity 660ms var(--ease-premium),
+    translate 660ms var(--ease-premium),
+    scale 660ms var(--ease-premium),
+    filter 660ms var(--ease-premium),
+    background 220ms ease,
+    transform 220ms var(--ease-premium),
+    box-shadow 220ms ease;
+  transition-delay: var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), 0ms, 0ms, 0ms;
+}
+
+html.reveal-ready .use-case[data-reveal] {
+  transition:
+    opacity 660ms var(--ease-premium),
+    translate 660ms var(--ease-premium),
+    scale 660ms var(--ease-premium),
+    filter 660ms var(--ease-premium),
+    color 180ms ease,
+    transform 220ms var(--ease-premium);
+  transition-delay: var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), var(--reveal-delay, 0ms), 0ms, 0ms;
 }
 
 @keyframes riseIn {
@@ -1131,6 +1184,30 @@ svg[fill="none"].footer-icon path {
     opacity: 1;
     transform: translateY(0);
     filter: blur(0);
+  }
+}
+
+@keyframes enginePanelIn {
+  from {
+    opacity: 0.72;
+    translate: 0 8px;
+    scale: 0.99;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+}
+
+@keyframes engineImageIn {
+  from {
+    opacity: 0.82;
+    scale: 1.015;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
   }
 }
 
@@ -1151,6 +1228,13 @@ svg[fill="none"].footer-icon path {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+
+  html.reveal-ready [data-reveal] {
+    opacity: 1 !important;
+    translate: 0 0 !important;
+    scale: 1 !important;
+    filter: none !important;
   }
 }
 
@@ -1176,8 +1260,7 @@ svg[fill="none"].footer-icon path {
   .workflow-line,
   .split-copy,
   .engine-carousel,
-  .chapter,
-  .roadmap {
+  .chapter {
     grid-template-columns: 1fr;
   }
 
@@ -1186,13 +1269,23 @@ svg[fill="none"].footer-icon path {
     min-height: auto;
   }
 
-  .problem-point {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
+  .problem-point:not(:last-child)::after {
+    top: auto;
+    right: 30px;
+    bottom: 0;
+    left: 30px;
+    transform: none;
+    width: auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, color-mix(in oklch, white 48%, transparent), transparent);
   }
 
-  .problem-point:last-child {
-    border-bottom: 0;
+  .problem-point[data-reveal]::after {
+    scale: 0 1;
+  }
+
+  .problem-point[data-reveal].is-visible::after {
+    scale: 1 1;
   }
 
   .workflow-line {
@@ -1203,14 +1296,7 @@ svg[fill="none"].footer-icon path {
     transform: none;
   }
 
-  .status-copy {
-    position: static;
-    justify-items: center;
-    text-align: center;
-  }
-
-  .chapter-copy h2,
-  .status-copy h2 {
+  .chapter-copy h2 {
     font-size: 3.05rem;
   }
 
@@ -1261,8 +1347,7 @@ svg[fill="none"].footer-icon path {
   }
 
   h2,
-  .chapter-copy h2,
-  .status-copy h2 {
+  .chapter-copy h2 {
     font-size: 2.35rem;
     line-height: 1.02;
   }
@@ -1270,7 +1355,6 @@ svg[fill="none"].footer-icon path {
   .hero-copy p,
   .section-header p,
   .chapter-copy p,
-  .status-copy p,
   .final-cta p,
   .footer p {
     font-size: 1rem;
@@ -1295,7 +1379,6 @@ svg[fill="none"].footer-icon path {
   .problem,
   .engines,
   .use-cases,
-  .roadmap,
   .faq,
   .final-cta,
   .workflow-band .page,
@@ -1303,7 +1386,14 @@ svg[fill="none"].footer-icon path {
     padding-block: 84px;
   }
 
-  .roadmap-row,
+  .problem {
+    padding-bottom: 50px;
+  }
+
+  .workflow-band .page {
+    padding-block: 54px 84px;
+  }
+
   .use-case {
     grid-template-columns: 1fr;
     gap: 10px;

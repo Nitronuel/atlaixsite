@@ -8,12 +8,8 @@ import watchlistImage from "../resources/watchlist.webp";
 import intelligenceMonitorImage from "../resources/intelligence monitor.webp";
 import aiMarketAnalystImage from "../resources/ai market analyst.webp";
 
-const docsUrl = "https://docs.atlaix.com/";
-const signInUrl = "https://beta.atlaix.com/login";
-const earlyAccessEndpoint = "https://beta.atlaix.com/api/beta-applications";
-const earlyAccessHref = "#early-access";
+const earlyAccessHref = "https://beta.atlaix.com";
 const engineAutoAdvanceMs = 3000;
-const earlyAccessErrorMessage = "We couldn't submit your request right now. Please try again soon.";
 
 function homeAnchor(hash) {
   return `/${hash}`;
@@ -23,7 +19,6 @@ const navItems = [
   ["Product", "#product"],
   ["Intelligence", "#intelligence"],
   ["Workflow", "#workflow"],
-  ["Docs", docsUrl],
 ];
 
 const problemPoints = [
@@ -41,6 +36,13 @@ const workflowSteps = [
 ];
 
 const engines = [
+  {
+    title: "Overview",
+    meta: "Unified dashboard",
+    body: "Monitor market activity from one unified dashboard.",
+    visual: "linear-gradient(135deg, oklch(30% 0.08 155) 0%, oklch(15% 0.05 156) 52%, oklch(7% 0.03 150) 100%)",
+    diagram: "overview",
+  },
   {
     title: "Detection Engine",
     meta: "Market events",
@@ -91,13 +93,6 @@ const engines = [
   },
 ];
 
-const useCases = [
-  ["Crypto traders", "Identify market events worth investigating before they disappear into noise."],
-  ["Wallet trackers", "Understand how important wallets interact with assets over time."],
-  ["Risk-conscious users", "Review concentration, liquidity, contract quality, and structural risk before making decisions."],
-  ["Researchers and analysts", "Use connected intelligence to support deeper asset research without rebuilding context from scratch."],
-];
-
 const faqs = [
   [
     "What is Atlaix?",
@@ -121,7 +116,7 @@ const faqs = [
   ],
   [
     "How do I get access to the private beta?",
-    "Apply for early access from this website. Our team reviews applications and sends invite emails to selected users. Once invited, you will be able to create your account and sign in at beta.atlaix.com.",
+    "Request early access through the Atlaix web app at beta.atlaix.com.",
   ],
 ];
 
@@ -179,7 +174,7 @@ function Navbar() {
         ))}
       </nav>
       <a className="nav-button" href={earlyAccessHref}>
-        Apply for Early Access
+        Request Early Access
       </a>
     </header>
   );
@@ -266,23 +261,16 @@ function HeroSection() {
   return (
     <section className="hero page" id="top">
       <div className="hero-copy">
-        <h1 data-reveal style={{ "--reveal-delay": "80ms" }}>Crypto market intelligence that explains what matters.</h1>
+        <h1 data-reveal style={{ "--reveal-delay": "80ms" }}>AI-Powered Market Intelligence for Digital Assets</h1>
         <p data-reveal style={{ "--reveal-delay": "160ms" }}>
-          Atlaix helps traders, researchers, and digital asset teams understand market activity through detection, risk analysis, wallet intelligence, monitoring, and AI-powered interpretation.
+          Transform fragmented market data into actionable intelligence through one unified platform. Detect opportunities, assess risk, monitor market activity, and understand what matters with AI-powered insights
         </p>
         <div className="hero-actions" data-reveal style={{ "--reveal-delay": "240ms" }}>
           <a className="button primary" href={earlyAccessHref}>
-            Apply for Early Access
+            Request Early Access
             <ButtonArrow />
           </a>
-          <a className="button text-link" href={signInUrl}>
-            Already invited? Sign in
-          </a>
-          <a className="button secondary" href={docsUrl}>
-            Read Docs
-          </a>
         </div>
-        <p className="hero-note" data-reveal style={{ "--reveal-delay": "320ms" }}>Access is available by invitation while Atlaix validates the platform with early users.</p>
       </div>
       <div data-reveal="scale" style={{ "--reveal-delay": "260ms" }}>
         <HeroVideo />
@@ -294,9 +282,7 @@ function HeroSection() {
 function ProblemSection() {
   return (
     <section className="problem page" id="product">
-      <SectionHeader eyebrow="Product" title="Crypto research is scattered across too many tools.">
-        Atlaix brings market intelligence into one workflow, so users spend less time gathering information and more time understanding what changed.
-      </SectionHeader>
+      <SectionHeader eyebrow="Why Atlaix" title="Built for Faster, Smarter Market Research" />
       <div className="problem-grid">
         {problemPoints.map(([title, body], index) => (
           <article className="problem-point" key={title} data-reveal style={{ "--reveal-delay": `${index * 90}ms` }}>
@@ -304,6 +290,24 @@ function ProblemSection() {
             <p>{body}</p>
           </article>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function MarketResearchSection() {
+  return (
+    <section className="market-research page">
+      <div className="market-research-copy" data-reveal>
+        <h2>Why Market Research Needs to Change</h2>
+        <div>
+          <p>
+            Digital asset markets generate more information than ever before, yet understanding that information remains unnecessarily complex. Research is often fragmented across multiple sources, forcing users to spend more time gathering data than making informed decisions.
+          </p>
+          <p>
+            Atlaix changes that by bringing market detection, risk analysis, wallet intelligence, monitoring, and AI-powered interpretation into one connected intelligence workflow.
+          </p>
+        </div>
       </div>
     </section>
   );
@@ -329,16 +333,65 @@ function WorkflowSection() {
   );
 }
 
+function OverviewDiagram() {
+  return (
+    <div className="overview-diagram" aria-hidden="true">
+      <div className="overview-dashboard">
+        <div className="overview-dashboard-head">
+          <span />
+          <span />
+          <strong>Market Overview</strong>
+        </div>
+        <div className="overview-stat-grid">
+          <div className="overview-stat primary">
+            <small>Activity</small>
+            <strong>+24.8%</strong>
+          </div>
+          <div className="overview-stat">
+            <small>Risk</small>
+            <strong>Low</strong>
+          </div>
+          <div className="overview-stat">
+            <small>Signals</small>
+            <strong>18</strong>
+          </div>
+        </div>
+        <div className="overview-chart">
+          <i style={{ "--height": "34%" }} />
+          <i style={{ "--height": "52%" }} />
+          <i style={{ "--height": "44%" }} />
+          <i style={{ "--height": "72%" }} />
+          <i style={{ "--height": "60%" }} />
+          <i style={{ "--height": "86%" }} />
+          <i style={{ "--height": "68%" }} />
+        </div>
+        <div className="overview-feed">
+          <span><b /> Liquidity expansion detected</span>
+          <span><b /> Wallet cluster activity rising</span>
+          <span><b /> Watchlist momentum updated</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function EngineVisual({ engine, activeEngine, variant = "desktop" }) {
   return (
     <div
-      className={`engine-visual ${variant} ${engine.image ? "has-image" : ""}`}
+      className={`engine-visual ${variant} ${engine.image ? "has-image" : ""} ${engine.diagram ? "has-diagram" : ""}`}
       id={variant === "desktop" ? "engine-visual-panel" : undefined}
       role="tabpanel"
       aria-labelledby={`engine-tab-${activeEngine}`}
       style={{ "--engine-fill": engine.visual }}
     >
-      {engine.image ? (
+      {engine.diagram === "overview" ? (
+        <>
+          <OverviewDiagram />
+          <div className="engine-visual-caption">
+            <strong>{engine.title}</strong>
+          </div>
+        </>
+      ) : engine.image ? (
         <>
           <img className="engine-visual-image" src={engine.image} alt={`${engine.title} product preview`} />
           <div className="engine-visual-caption">
@@ -430,24 +483,6 @@ function IntelligenceEngines() {
   );
 }
 
-function UseCasesSection() {
-  return (
-    <section className="use-cases page" id="use-cases">
-      <SectionHeader eyebrow="Use cases" title="Built for serious digital asset research.">
-        Atlaix helps users decide what deserves more research, what needs caution, and what changed while they were focused elsewhere.
-      </SectionHeader>
-      <div className="use-case-list">
-        {useCases.map(([title, body], index) => (
-          <article className="use-case" key={title} data-reveal style={{ "--reveal-delay": `${index * 80}ms` }}>
-            <h3>{title}</h3>
-            <p>{body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function FAQSection() {
   const [activeFaq, setActiveFaq] = useState(0);
 
@@ -481,218 +516,6 @@ function FAQSection() {
         })}
       </div>
     </section>
-  );
-}
-
-function FinalCTA() {
-  return (
-    <section className="final-cta page" id="early-access">
-      <div className="final-cta-copy" data-reveal>
-        <Badge tone="success">Private Beta</Badge>
-        <h2>Understand digital asset markets with more context.</h2>
-        <p>Apply for Private Beta access and help Atlaix refine an AI-powered market intelligence platform before public release.</p>
-      </div>
-      <EarlyAccessForm />
-      <div className="form-secondary-actions" data-reveal style={{ "--reveal-delay": "220ms" }}>
-        <a className="button text-link" href={signInUrl}>
-          Already invited? Sign in
-        </a>
-        <a className="button secondary" href={docsUrl}>
-          Read Docs
-        </a>
-      </div>
-    </section>
-  );
-}
-
-function isValidEmail(email) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
-function EarlyAccessForm() {
-  const [formValues, setFormValues] = useState({
-    fullName: "",
-    email: "",
-    xUsername: "",
-    telegramUsername: "",
-    intendedUse: "",
-  });
-  const [formErrors, setFormErrors] = useState({});
-  const [submitState, setSubmitState] = useState("idle");
-
-  const isSubmitting = submitState === "submitting";
-  const isSuccess = submitState === "success";
-
-  const validateForm = () => {
-    const nextErrors = {};
-    const fullName = formValues.fullName.trim();
-    const email = formValues.email.trim();
-
-    if (!fullName) {
-      nextErrors.fullName = "Full name is required.";
-    }
-
-    if (!email) {
-      nextErrors.email = "Email is required.";
-    } else if (!isValidEmail(email)) {
-      nextErrors.email = "Enter a valid email address.";
-    }
-
-    setFormErrors(nextErrors);
-    return Object.keys(nextErrors).length === 0;
-  };
-
-  const handleFieldChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormValues((current) => ({
-      ...current,
-      [name]: value,
-    }));
-
-    if (formErrors[name]) {
-      setFormErrors((current) => {
-        const nextErrors = { ...current };
-        delete nextErrors[name];
-        return nextErrors;
-      });
-    }
-
-    if (submitState === "error") {
-      setSubmitState("idle");
-    }
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    if (isSubmitting || isSuccess || !validateForm()) {
-      return;
-    }
-
-    setSubmitState("submitting");
-
-    try {
-      const payload = {
-        fullName: formValues.fullName.trim(),
-        email: formValues.email.trim().toLowerCase(),
-        xUsername: formValues.xUsername.trim() || undefined,
-        telegramUsername: formValues.telegramUsername.trim() || undefined,
-        intendedUse: formValues.intendedUse.trim() || undefined,
-      };
-
-      const response = await fetch(earlyAccessEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await response.json().catch(() => null);
-
-      if (!response.ok || data?.ok === false) {
-        throw new Error("Early access request failed.");
-      }
-
-      setSubmitState("success");
-    } catch {
-      setSubmitState("error");
-    }
-  };
-
-  return (
-    <form
-      className="early-access-form"
-      id="early-access-form"
-      name="early-access"
-      data-reveal
-      style={{ "--reveal-delay": "180ms" }}
-      onSubmit={handleSubmit}
-      noValidate
-    >
-      <div className="form-heading">
-        <span>Request Early Access</span>
-        <small>Atlaix is invitation-only while the platform is in private beta.</small>
-      </div>
-
-      {isSuccess ? (
-        <div className="form-message success" role="status" tabIndex={-1}>
-          <strong>Thanks for your interest in Atlaix.</strong>
-          <p>We have received your request. If selected, you will receive an invitation by email with instructions to create your account.</p>
-        </div>
-      ) : (
-        <>
-          <label className="form-field">
-            <span>Full Name</span>
-            <input
-              name="fullName"
-              type="text"
-              value={formValues.fullName}
-              onChange={handleFieldChange}
-              autoComplete="name"
-              required
-              aria-invalid={formErrors.fullName ? "true" : "false"}
-              aria-describedby={formErrors.fullName ? "full-name-error" : undefined}
-            />
-            {formErrors.fullName ? <small id="full-name-error">{formErrors.fullName}</small> : null}
-          </label>
-
-          <label className="form-field">
-            <span>Email Address</span>
-            <input
-              name="email"
-              type="email"
-              value={formValues.email}
-              onChange={handleFieldChange}
-              autoComplete="email"
-              required
-              aria-invalid={formErrors.email ? "true" : "false"}
-              aria-describedby={formErrors.email ? "email-error" : undefined}
-            />
-            {formErrors.email ? <small id="email-error">{formErrors.email}</small> : null}
-          </label>
-
-          <label className="form-field">
-            <span>X Username (optional)</span>
-            <input
-              name="xUsername"
-              type="text"
-              value={formValues.xUsername}
-              onChange={handleFieldChange}
-              autoComplete="off"
-            />
-          </label>
-
-          <label className="form-field">
-            <span>Telegram Username (optional)</span>
-            <input
-              name="telegramUsername"
-              type="text"
-              value={formValues.telegramUsername}
-              onChange={handleFieldChange}
-              autoComplete="off"
-            />
-          </label>
-
-          <label className="form-field wide">
-            <span>How do you plan to use Atlaix?</span>
-            <textarea
-              name="intendedUse"
-              value={formValues.intendedUse}
-              onChange={handleFieldChange}
-              rows="5"
-            />
-          </label>
-
-          {submitState === "error" ? (
-            <p className="form-message error" role="alert">{earlyAccessErrorMessage}</p>
-          ) : null}
-
-          <button className="button primary form-submit" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting..." : "Request Early Access"}
-            {!isSubmitting ? <ButtonArrow /> : null}
-          </button>
-        </>
-      )}
-    </form>
   );
 }
 
@@ -748,14 +571,11 @@ function Footer() {
           <a href={homeAnchor("#product")}>The Problem</a>
           <a href={homeAnchor("#intelligence")}>Solution</a>
           <a href={homeAnchor("#workflow")}>How it Works</a>
-          <a href={homeAnchor("#use-cases")}>Featured</a>
         </nav>
 
         <nav className="footer-column footer-link-list" aria-label="Resources">
           <h3>Resources</h3>
-          <a href={docsUrl}>Docs</a>
-          <a href={earlyAccessHref}>Apply for Early Access</a>
-          <a href={signInUrl}>Already invited? Sign in</a>
+          <a href={earlyAccessHref}>Request Early Access</a>
           <a href="#privacy">Privacy Policy</a>
           <a href="#terms">Terms of Service</a>
         </nav>
@@ -776,12 +596,11 @@ function App() {
       <div className="ambient" aria-hidden="true" />
       <Navbar />
       <HeroSection />
-      <ProblemSection />
-      <WorkflowSection />
       <IntelligenceEngines />
-      <UseCasesSection />
+      <MarketResearchSection />
+      <WorkflowSection />
+      <ProblemSection />
       <FAQSection />
-      <FinalCTA />
       <Footer />
     </main>
   );

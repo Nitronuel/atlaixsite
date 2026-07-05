@@ -184,10 +184,6 @@ function Badge({ children, tone = "default" }) {
   return <span className={`badge ${tone}`}>{children}</span>;
 }
 
-function ButtonArrow() {
-  return <span aria-hidden="true" className="button-arrow" />;
-}
-
 function MailIcon() {
   return (
     <svg className="footer-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -268,7 +264,6 @@ function HeroSection() {
         <div className="hero-actions" data-reveal style={{ "--reveal-delay": "240ms" }}>
           <a className="button primary" href={earlyAccessHref}>
             Request Early Access
-            <ButtonArrow />
           </a>
         </div>
       </div>

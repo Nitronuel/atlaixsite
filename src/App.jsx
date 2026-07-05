@@ -315,6 +315,32 @@ function WorkflowSection() {
   );
 }
 
+function EngineVisual({ engine, activeEngine, variant = "desktop" }) {
+  return (
+    <div
+      className={`engine-visual ${variant} ${engine.image ? "has-image" : ""}`}
+      id={variant === "desktop" ? "engine-visual-panel" : undefined}
+      role="tabpanel"
+      aria-labelledby={`engine-tab-${activeEngine}`}
+      style={{ "--engine-fill": engine.visual }}
+    >
+      {engine.image ? (
+        <>
+          <img className="engine-visual-image" src={engine.image} alt={`${engine.title} product preview`} />
+          <div className="engine-visual-caption">
+            <strong>{engine.title}</strong>
+          </div>
+        </>
+      ) : (
+        <div>
+          <strong>{engine.title}</strong>
+          <p>{engine.body}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function IntelligenceEngines() {
   const [activeEngine, setActiveEngine] = useState(0);
 
@@ -345,49 +371,30 @@ function IntelligenceEngines() {
             const isActive = index === activeEngine;
 
             return (
-              <button
-                className={`engine-tab ${isActive ? "active" : ""}`}
-                key={title}
-                type="button"
-                role="tab"
-                aria-selected={isActive}
-                aria-controls="engine-visual-panel"
-                id={`engine-tab-${index}`}
-                onClick={() => setActiveEngine(index)}
-              >
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <strong>{title}</strong>
-                {isActive ? (
-                  <div>
-                    <p>{body}</p>
-                  </div>
-                ) : null}
-              </button>
+              <div className="engine-tab-group" key={title}>
+                <button
+                  className={`engine-tab ${isActive ? "active" : ""}`}
+                  type="button"
+                  role="tab"
+                  aria-selected={isActive}
+                  aria-controls="engine-visual-panel"
+                  id={`engine-tab-${index}`}
+                  onClick={() => setActiveEngine(index)}
+                >
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  <strong>{title}</strong>
+                  {isActive ? (
+                    <div>
+                      <p>{body}</p>
+                    </div>
+                  ) : null}
+                </button>
+                {isActive ? <EngineVisual engine={currentEngine} activeEngine={activeEngine} variant="mobile" /> : null}
+              </div>
             );
           })}
         </div>
-        <div
-          className={`engine-visual ${currentEngine.image ? "has-image" : ""}`}
-          key={currentEngine.title}
-          id="engine-visual-panel"
-          role="tabpanel"
-          aria-labelledby={`engine-tab-${activeEngine}`}
-          style={{ "--engine-fill": currentEngine.visual }}
-        >
-          {currentEngine.image ? (
-            <>
-              <img className="engine-visual-image" src={currentEngine.image} alt={`${currentEngine.title} product preview`} />
-              <div className="engine-visual-caption">
-                <strong>{currentEngine.title}</strong>
-              </div>
-            </>
-          ) : (
-            <div>
-              <strong>{currentEngine.title}</strong>
-              <p>{currentEngine.body}</p>
-            </div>
-          )}
-        </div>
+        <EngineVisual key={currentEngine.title} engine={currentEngine} activeEngine={activeEngine} />
         <div className="engine-controls" aria-label="Intelligence stack carousel controls">
           <button type="button" aria-label="Previous intelligence module" onClick={showPreviousEngine}>
             <span aria-hidden="true">←</span>

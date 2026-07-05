@@ -587,6 +587,10 @@ h3 {
   align-content: start;
 }
 
+.engine-tab-group {
+  display: grid;
+}
+
 .engine-tab {
   position: relative;
   width: 100%;
@@ -668,6 +672,10 @@ h3 {
     0 24px 70px color-mix(in oklch, var(--accent-deep) 38%, transparent);
   animation: enginePanelIn 420ms var(--ease-premium) both;
   transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.engine-visual.mobile {
+  display: none;
 }
 
 .engine-visual.has-image {
@@ -1418,7 +1426,7 @@ html.reveal-ready .use-case[data-reveal] {
 
   .engine-carousel {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 22px;
     margin-top: 44px;
   }
 
@@ -1426,8 +1434,14 @@ html.reveal-ready .use-case[data-reveal] {
     margin-top: 0;
   }
 
-  .engine-visual {
+  .engine-visual.desktop {
+    display: none;
+  }
+
+  .engine-visual.mobile {
     min-height: 340px;
+    display: grid;
+    margin: 14px 0 10px 34px;
   }
 
   .engine-tab {

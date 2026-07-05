@@ -9,8 +9,15 @@ import intelligenceMonitorImage from "../resources/intelligence monitor.webp";
 import aiMarketAnalystImage from "../resources/ai market analyst.webp";
 
 const docsUrl = "https://docs.atlaix.com/";
-const betaUrl = "https://beta.atlaix.com";
+const signInUrl = "https://beta.atlaix.com/login";
+const earlyAccessEndpoint = "https://beta.atlaix.com/api/beta-applications";
+const earlyAccessHref = "#early-access";
 const engineAutoAdvanceMs = 3000;
+const earlyAccessErrorMessage = "We couldn't submit your request right now. Please try again soon.";
+
+function homeAnchor(hash) {
+  return `/${hash}`;
+}
 
 const navItems = [
   ["Product", "#product"],
@@ -112,6 +119,10 @@ const faqs = [
     "Is Atlaix available today?",
     "Atlaix is currently in Private Beta with early user onboarding in progress.",
   ],
+  [
+    "How do I get access to the private beta?",
+    "Apply for early access from this website. Our team reviews applications and sends invite emails to selected users. Once invited, you will be able to create your account and sign in at beta.atlaix.com.",
+  ],
 ];
 
 function useScrollReveal() {
@@ -154,7 +165,7 @@ function useScrollReveal() {
 function Navbar() {
   return (
     <header className="nav-shell">
-      <a className="brand" href="#top" aria-label="Atlaix home">
+      <a className="brand" href="/" aria-label="Atlaix home">
         <span className="brand-mark" aria-hidden="true">
           <img src={atlaixLogo} alt="" />
         </span>
@@ -162,13 +173,13 @@ function Navbar() {
       </a>
       <nav className="nav-links" aria-label="Primary navigation">
         {navItems.map(([label, href]) => (
-          <a key={label} href={href}>
+          <a key={label} href={href.startsWith("#") ? homeAnchor(href) : href}>
             {label}
           </a>
         ))}
       </nav>
-      <a className="nav-button" href="#waitlist">
-        Join Waitlist
+      <a className="nav-button" href={earlyAccessHref}>
+        Apply for Early Access
       </a>
     </header>
   );
@@ -260,9 +271,12 @@ function HeroSection() {
           Atlaix helps traders, researchers, and digital asset teams understand market activity through detection, risk analysis, wallet intelligence, monitoring, and AI-powered interpretation.
         </p>
         <div className="hero-actions" data-reveal style={{ "--reveal-delay": "240ms" }}>
-          <a className="button primary" href="#waitlist">
-            Join Waitlist
+          <a className="button primary" href={earlyAccessHref}>
+            Apply for Early Access
             <ButtonArrow />
+          </a>
+          <a className="button text-link" href={signInUrl}>
+            Already invited? Sign in
           </a>
           <a className="button secondary" href={docsUrl}>
             Read Docs
@@ -472,16 +486,16 @@ function FAQSection() {
 
 function FinalCTA() {
   return (
-    <section className="final-cta page" id="waitlist">
-      <div data-reveal>
+    <section className="final-cta page" id="early-access">
+      <div className="final-cta-copy" data-reveal>
         <Badge tone="success">Private Beta</Badge>
         <h2>Understand digital asset markets with more context.</h2>
-        <p>Join the Atlaix waitlist for Private Beta access and follow the development of an AI-powered market intelligence platform.</p>
+        <p>Apply for Private Beta access and help Atlaix refine an AI-powered market intelligence platform before public release.</p>
       </div>
-      <div className="hero-actions" data-reveal style={{ "--reveal-delay": "120ms" }}>
-        <a className="button primary" href={betaUrl}>
-          Join Waitlist
-          <ButtonArrow />
+      <EarlyAccessForm />
+      <div className="form-secondary-actions" data-reveal style={{ "--reveal-delay": "220ms" }}>
+        <a className="button text-link" href={signInUrl}>
+          Already invited? Sign in
         </a>
         <a className="button secondary" href={docsUrl}>
           Read Docs
@@ -491,12 +505,203 @@ function FinalCTA() {
   );
 }
 
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function EarlyAccessForm() {
+  const [formValues, setFormValues] = useState({
+    fullName: "",
+    email: "",
+    xUsername: "",
+    telegramUsername: "",
+    intendedUse: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
+  const [submitState, setSubmitState] = useState("idle");
+
+  const isSubmitting = submitState === "submitting";
+  const isSuccess = submitState === "success";
+
+  const validateForm = () => {
+    const nextErrors = {};
+    const fullName = formValues.fullName.trim();
+    const email = formValues.email.trim();
+
+    if (!fullName) {
+      nextErrors.fullName = "Full name is required.";
+    }
+
+    if (!email) {
+      nextErrors.email = "Email is required.";
+    } else if (!isValidEmail(email)) {
+      nextErrors.email = "Enter a valid email address.";
+    }
+
+    setFormErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const handleFieldChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormValues((current) => ({
+      ...current,
+      [name]: value,
+    }));
+
+    if (formErrors[name]) {
+      setFormErrors((current) => {
+        const nextErrors = { ...current };
+        delete nextErrors[name];
+        return nextErrors;
+      });
+    }
+
+    if (submitState === "error") {
+      setSubmitState("idle");
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (isSubmitting || isSuccess || !validateForm()) {
+      return;
+    }
+
+    setSubmitState("submitting");
+
+    try {
+      const payload = {
+        fullName: formValues.fullName.trim(),
+        email: formValues.email.trim().toLowerCase(),
+        xUsername: formValues.xUsername.trim() || undefined,
+        telegramUsername: formValues.telegramUsername.trim() || undefined,
+        intendedUse: formValues.intendedUse.trim() || undefined,
+      };
+
+      const response = await fetch(earlyAccessEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || data?.ok === false) {
+        throw new Error("Early access request failed.");
+      }
+
+      setSubmitState("success");
+    } catch {
+      setSubmitState("error");
+    }
+  };
+
+  return (
+    <form
+      className="early-access-form"
+      id="early-access-form"
+      name="early-access"
+      data-reveal
+      style={{ "--reveal-delay": "180ms" }}
+      onSubmit={handleSubmit}
+      noValidate
+    >
+      <div className="form-heading">
+        <span>Request Early Access</span>
+        <small>Atlaix is invitation-only while the platform is in private beta.</small>
+      </div>
+
+      {isSuccess ? (
+        <div className="form-message success" role="status" tabIndex={-1}>
+          <strong>Thanks for your interest in Atlaix.</strong>
+          <p>We have received your request. If selected, you will receive an invitation by email with instructions to create your account.</p>
+        </div>
+      ) : (
+        <>
+          <label className="form-field">
+            <span>Full Name</span>
+            <input
+              name="fullName"
+              type="text"
+              value={formValues.fullName}
+              onChange={handleFieldChange}
+              autoComplete="name"
+              required
+              aria-invalid={formErrors.fullName ? "true" : "false"}
+              aria-describedby={formErrors.fullName ? "full-name-error" : undefined}
+            />
+            {formErrors.fullName ? <small id="full-name-error">{formErrors.fullName}</small> : null}
+          </label>
+
+          <label className="form-field">
+            <span>Email Address</span>
+            <input
+              name="email"
+              type="email"
+              value={formValues.email}
+              onChange={handleFieldChange}
+              autoComplete="email"
+              required
+              aria-invalid={formErrors.email ? "true" : "false"}
+              aria-describedby={formErrors.email ? "email-error" : undefined}
+            />
+            {formErrors.email ? <small id="email-error">{formErrors.email}</small> : null}
+          </label>
+
+          <label className="form-field">
+            <span>X Username (optional)</span>
+            <input
+              name="xUsername"
+              type="text"
+              value={formValues.xUsername}
+              onChange={handleFieldChange}
+              autoComplete="off"
+            />
+          </label>
+
+          <label className="form-field">
+            <span>Telegram Username (optional)</span>
+            <input
+              name="telegramUsername"
+              type="text"
+              value={formValues.telegramUsername}
+              onChange={handleFieldChange}
+              autoComplete="off"
+            />
+          </label>
+
+          <label className="form-field wide">
+            <span>How do you plan to use Atlaix?</span>
+            <textarea
+              name="intendedUse"
+              value={formValues.intendedUse}
+              onChange={handleFieldChange}
+              rows="5"
+            />
+          </label>
+
+          {submitState === "error" ? (
+            <p className="form-message error" role="alert">{earlyAccessErrorMessage}</p>
+          ) : null}
+
+          <button className="button primary form-submit" type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Request Early Access"}
+            {!isSubmitting ? <ButtonArrow /> : null}
+          </button>
+        </>
+      )}
+    </form>
+  );
+}
+
 function Footer() {
   return (
     <footer className="footer">
       <div className="footer-grid">
         <div className="footer-brand">
-          <a className="brand footer-wordmark" href="#top" aria-label="Atlaix home">
+          <a className="brand footer-wordmark" href="/" aria-label="Atlaix home">
             <span className="brand-mark" aria-hidden="true">
               <img src={atlaixLogo} alt="" />
             </span>
@@ -540,15 +745,17 @@ function Footer() {
 
         <nav className="footer-column footer-link-list" aria-label="Quick links">
           <h3>Quick Links</h3>
-          <a href="#product">The Problem</a>
-          <a href="#intelligence">Solution</a>
-          <a href="#workflow">How it Works</a>
-          <a href="#use-cases">Featured</a>
+          <a href={homeAnchor("#product")}>The Problem</a>
+          <a href={homeAnchor("#intelligence")}>Solution</a>
+          <a href={homeAnchor("#workflow")}>How it Works</a>
+          <a href={homeAnchor("#use-cases")}>Featured</a>
         </nav>
 
         <nav className="footer-column footer-link-list" aria-label="Resources">
           <h3>Resources</h3>
           <a href={docsUrl}>Docs</a>
+          <a href={earlyAccessHref}>Apply for Early Access</a>
+          <a href={signInUrl}>Already invited? Sign in</a>
           <a href="#privacy">Privacy Policy</a>
           <a href="#terms">Terms of Service</a>
         </nav>

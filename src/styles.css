@@ -230,10 +230,22 @@ body::before {
   background: color-mix(in oklch, var(--accent) 8%, transparent);
 }
 
+.button.text-link {
+  min-height: 40px;
+  padding-inline: 8px;
+  color: var(--muted);
+  background: transparent;
+}
+
 .button:hover,
 .nav-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 14px 32px color-mix(in oklch, var(--accent) 22%, transparent);
+}
+
+.button.text-link:hover {
+  color: var(--ink);
+  box-shadow: none;
 }
 
 .button-arrow {
@@ -957,8 +969,157 @@ h3 {
 }
 
 .final-cta {
-  max-width: 860px;
+  max-width: 920px;
+  scroll-margin-top: 92px;
   padding-block: 130px;
+}
+
+.final-cta-copy {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.early-access-form {
+  width: min(100%, 720px);
+  display: grid;
+  justify-self: center;
+  gap: 18px;
+  margin-top: 30px;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-align: left;
+  background:
+    radial-gradient(circle at 50% 0%, color-mix(in oklch, var(--accent) 13%, transparent), transparent 18rem),
+    linear-gradient(180deg, color-mix(in oklch, var(--ink) 2%, transparent), color-mix(in oklch, var(--accent) 7%, transparent)),
+    var(--bg-soft);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklch, var(--accent) 16%, transparent),
+    0 28px 80px color-mix(in oklch, var(--accent-deep) 40%, transparent);
+}
+
+.form-secondary-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.form-heading {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 8px;
+}
+
+.form-heading span {
+  color: var(--ink);
+  font-size: 1.28rem;
+  font-weight: 760;
+  letter-spacing: -0.022em;
+}
+
+.form-heading small,
+.form-field small {
+  color: var(--dim);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+}
+
+.form-field span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 13px;
+  color: var(--ink);
+  background: color-mix(in oklch, black 22%, var(--surface));
+  outline: none;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.form-field textarea {
+  min-height: 132px;
+  resize: vertical;
+}
+
+.form-field input:hover,
+.form-field textarea:hover {
+  border-color: color-mix(in oklch, var(--accent) 34%, transparent);
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  border-color: color-mix(in oklch, var(--accent) 62%, transparent);
+  background: color-mix(in oklch, black 15%, var(--surface));
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--accent) 14%, transparent);
+}
+
+.form-field input[aria-invalid="true"] {
+  border-color: color-mix(in oklch, var(--danger) 78%, transparent);
+}
+
+.form-field input[aria-invalid="true"]:focus {
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--danger) 14%, transparent);
+}
+
+.form-field small {
+  color: color-mix(in oklch, var(--danger) 82%, white);
+}
+
+.form-message {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+  color: var(--muted);
+  line-height: 1.58;
+  background: color-mix(in oklch, var(--accent) 7%, transparent);
+}
+
+.form-message strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+}
+
+.form-message.success {
+  border-color: var(--line-strong);
+  background:
+    radial-gradient(circle at 18% 0%, color-mix(in oklch, var(--accent) 18%, transparent), transparent 12rem),
+    color-mix(in oklch, var(--accent) 8%, transparent);
+}
+
+.form-message.error {
+  border-color: color-mix(in oklch, var(--danger) 55%, transparent);
+  color: color-mix(in oklch, var(--danger) 84%, white);
+  background: color-mix(in oklch, var(--danger) 9%, transparent);
+}
+
+.form-submit {
+  width: 100%;
+  margin-top: 4px;
+  border: 0;
+  cursor: pointer;
+}
+
+.form-submit:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+  box-shadow: none;
 }
 
 .footer {
@@ -1377,6 +1538,20 @@ html.reveal-ready .use-case[data-reveal] {
 
   .button {
     width: 100%;
+  }
+
+  .button.text-link {
+    justify-self: center;
+  }
+
+  .form-secondary-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .early-access-form {
+    padding: 20px;
   }
 
   .screenshot-zone.large,

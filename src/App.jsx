@@ -9,6 +9,7 @@ import intelligenceMonitorImage from "../resources/intelligence monitor.webp";
 import aiMarketAnalystImage from "../resources/ai market analyst.webp";
 
 const earlyAccessHref = "https://beta.atlaix.com";
+const docsHref = "https://docs.atlaix.com/";
 const engineAutoAdvanceMs = 3000;
 
 function homeAnchor(hash) {
@@ -173,9 +174,14 @@ function Navbar() {
           </a>
         ))}
       </nav>
-      <a className="nav-button" href={earlyAccessHref}>
-        Request Early Access
-      </a>
+      <div className="nav-actions">
+        <a className="nav-button" href={earlyAccessHref}>
+          Request Early Access
+        </a>
+        <a className="nav-button secondary" href={docsHref}>
+          Docs
+        </a>
+      </div>
     </header>
   );
 }
@@ -264,6 +270,9 @@ function HeroSection() {
         <div className="hero-actions" data-reveal style={{ "--reveal-delay": "240ms" }}>
           <a className="button primary" href={earlyAccessHref}>
             Request Early Access
+          </a>
+          <a className="button secondary" href={docsHref}>
+            Docs
           </a>
         </div>
       </div>
@@ -571,8 +580,7 @@ function Footer() {
         <nav className="footer-column footer-link-list" aria-label="Resources">
           <h3>Resources</h3>
           <a href={earlyAccessHref}>Request Early Access</a>
-          <a href="#privacy">Privacy Policy</a>
-          <a href="#terms">Terms of Service</a>
+          <a href={docsHref}>Docs</a>
         </nav>
       </div>
       <div className="footer-bottom">

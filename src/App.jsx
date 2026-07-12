@@ -1,16 +1,9 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import atlaixLogo from "../resources/atlaix logo.png";
 import heroImage from "../resources/hero section.png";
-import detectionEngineImage from "../resources/detection engine.webp";
-import safeScanImage from "../resources/safe scan.webp";
-import walletIntelligenceImage from "../resources/wallet intelligence.webp";
-import watchlistImage from "../resources/watchlist.webp";
-import intelligenceMonitorImage from "../resources/intelligence monitor.webp";
-import aiMarketAnalystImage from "../resources/ai market analyst.webp";
 
 const earlyAccessHref = "https://beta.atlaix.com";
 const docsHref = "https://docs.atlaix.com/";
-const engineAutoAdvanceMs = 3000;
 
 function homeAnchor(hash) {
   return `/${hash}`;
@@ -49,42 +42,36 @@ const engines = [
     meta: "Market events",
     body: "Discover meaningful market events before they become obvious.",
     visual: "linear-gradient(135deg, oklch(28% 0.09 167) 0%, oklch(16% 0.052 158) 48%, oklch(8% 0.032 154) 100%)",
-    image: detectionEngineImage,
   },
   {
     title: "SafeScan",
     meta: "Risk intelligence",
     body: "Understand holder structure, liquidity, and token risk.",
     visual: "linear-gradient(135deg, oklch(30% 0.08 138) 0%, oklch(15% 0.046 154) 52%, oklch(8% 0.03 150) 100%)",
-    image: safeScanImage,
   },
   {
     title: "Wallet Intelligence",
     meta: "On-chain behavior",
     body: "Track wallets and understand on-chain behavior.",
     visual: "linear-gradient(135deg, oklch(26% 0.075 178) 0%, oklch(14% 0.045 160) 52%, oklch(8% 0.03 156) 100%)",
-    image: walletIntelligenceImage,
   },
   {
     title: "Watchlists",
     meta: "Research workspace",
     body: "Create personalized intelligence workspaces for the assets you follow.",
     visual: "linear-gradient(135deg, oklch(31% 0.09 132) 0%, oklch(15% 0.047 148) 48%, oklch(8% 0.03 150) 100%)",
-    image: watchlistImage,
   },
   {
     title: "Intelligence Monitor",
     meta: "Alerts",
     body: "Receive notifications whenever important market events occur.",
     visual: "linear-gradient(135deg, oklch(29% 0.085 170) 0%, oklch(15% 0.048 160) 54%, oklch(8% 0.03 154) 100%)",
-    image: intelligenceMonitorImage,
   },
   {
     title: "AI Market Analyst",
     meta: "Interpretation layer",
     body: "Transform complex market data into clear, contextual intelligence.",
     visual: "linear-gradient(135deg, oklch(27% 0.078 145) 0%, oklch(14% 0.047 156) 52%, oklch(8% 0.03 150) 100%)",
-    image: aiMarketAnalystImage,
   },
   {
     title: "Smart Money Intelligence (Coming Soon)",
@@ -337,151 +324,19 @@ function WorkflowSection() {
   );
 }
 
-function OverviewDiagram() {
-  return (
-    <div className="overview-diagram" aria-hidden="true">
-      <div className="overview-dashboard">
-        <div className="overview-dashboard-head">
-          <span />
-          <span />
-          <strong>Market Overview</strong>
-        </div>
-        <div className="overview-stat-grid">
-          <div className="overview-stat primary">
-            <small>Activity</small>
-            <strong>+24.8%</strong>
-          </div>
-          <div className="overview-stat">
-            <small>Risk</small>
-            <strong>Low</strong>
-          </div>
-          <div className="overview-stat">
-            <small>Signals</small>
-            <strong>18</strong>
-          </div>
-        </div>
-        <div className="overview-chart">
-          <i style={{ "--height": "34%" }} />
-          <i style={{ "--height": "52%" }} />
-          <i style={{ "--height": "44%" }} />
-          <i style={{ "--height": "72%" }} />
-          <i style={{ "--height": "60%" }} />
-          <i style={{ "--height": "86%" }} />
-          <i style={{ "--height": "68%" }} />
-        </div>
-        <div className="overview-feed">
-          <span><b /> Liquidity expansion detected</span>
-          <span><b /> Wallet cluster activity rising</span>
-          <span><b /> Watchlist momentum updated</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function EngineVisual({ engine, activeEngine, variant = "desktop" }) {
-  return (
-    <div
-      className={`engine-visual ${variant} ${engine.image ? "has-image" : ""} ${engine.diagram ? "has-diagram" : ""}`}
-      id={variant === "desktop" ? "engine-visual-panel" : undefined}
-      role="tabpanel"
-      aria-labelledby={`engine-tab-${activeEngine}`}
-      style={{ "--engine-fill": engine.visual }}
-    >
-      {engine.diagram === "overview" ? (
-        <>
-          <OverviewDiagram />
-          <div className="engine-visual-caption">
-            <strong>{engine.title}</strong>
-          </div>
-        </>
-      ) : engine.image ? (
-        <>
-          <img className="engine-visual-image" src={engine.image} alt={`${engine.title} product preview`} />
-          <div className="engine-visual-caption">
-            <strong>{engine.title}</strong>
-          </div>
-        </>
-      ) : (
-        <div>
-          <strong>{engine.title}</strong>
-          <p>{engine.body}</p>
-        </div>
-      )}
-    </div>
-  );
-}
-
 function IntelligenceEngines() {
-  const [activeEngine, setActiveEngine] = useState(0);
-
-  useEffect(() => {
-    const timerId = window.setTimeout(() => {
-      setActiveEngine((current) => (current + 1) % engines.length);
-    }, engineAutoAdvanceMs);
-
-    return () => window.clearTimeout(timerId);
-  }, [activeEngine]);
-
-  const currentEngine = engines[activeEngine];
-  const showPreviousEngine = () => {
-    setActiveEngine((current) => (current - 1 + engines.length) % engines.length);
-  };
-  const showNextEngine = () => {
-    setActiveEngine((current) => (current + 1) % engines.length);
-  };
-
   return (
     <section className="engines page" id="intelligence">
       <SectionHeader eyebrow="Intelligence stack" title="One Platform. Complete Market Intelligence.">
         Atlaix combines multiple intelligence engines into one connected workflow, eliminating the need to switch between numerous crypto tools.
       </SectionHeader>
-      <div className="engine-carousel" data-reveal>
-        <div className="engine-tabs" role="tablist" aria-label="Atlaix intelligence modules">
-          {engines.map(({ title, body }, index) => {
-            const isActive = index === activeEngine;
-
-            return (
-              <div className="engine-tab-group" key={title}>
-                <button
-                  className={`engine-tab ${isActive ? "active" : ""}`}
-                  type="button"
-                  role="tab"
-                  aria-selected={isActive}
-                  aria-controls="engine-visual-panel"
-                  id={`engine-tab-${index}`}
-                  onClick={() => setActiveEngine(index)}
-                >
-                  <span>{String(index + 1).padStart(2, "0")}</span>
-                  <strong>{title}</strong>
-                  {isActive ? (
-                    <div>
-                      <p>{body}</p>
-                    </div>
-                  ) : null}
-                </button>
-                {isActive ? <EngineVisual engine={currentEngine} activeEngine={activeEngine} variant="mobile" /> : null}
-              </div>
-            );
-          })}
-        </div>
-        <EngineVisual key={currentEngine.title} engine={currentEngine} activeEngine={activeEngine} />
-        <div className="engine-controls" aria-label="Intelligence stack carousel controls">
-          <button type="button" aria-label="Previous intelligence module" onClick={showPreviousEngine}>
-            <span aria-hidden="true">←</span>
-          </button>
-          <div className="engine-control-status">
-            <span>
-              {String(activeEngine + 1).padStart(2, "0")} / {String(engines.length).padStart(2, "0")}
-            </span>
-            <div className="engine-progress" aria-hidden="true">
-              <i key={activeEngine} />
-            </div>
-          </div>
-          <button type="button" aria-label="Next intelligence module" onClick={showNextEngine}>
-            <span aria-hidden="true">→</span>
-          </button>
-        </div>
+      <div className="engine-grid" data-reveal>
+        {engines.map(({ title, body }, index) => (
+          <article className="engine-card" key={title} style={{ "--reveal-delay": `${index * 70}ms` }}>
+            <h3>{title}</h3>
+            <p>{body}</p>
+          </article>
+        ))}
       </div>
     </section>
   );

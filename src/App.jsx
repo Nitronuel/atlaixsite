@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import atlaixLogo from "../resources/atlaix logo.png";
+import atlaixLogo from "../resources/atlaix logo.jpg";
 import heroImage from "../resources/hero section.png";
 
 const earlyAccessHref = "https://beta.atlaix.com";
@@ -250,16 +250,13 @@ function HeroSection() {
   return (
     <section className="hero page" id="top">
       <div className="hero-copy">
-        <h1 data-reveal style={{ "--reveal-delay": "80ms" }}>AI-Powered Market Intelligence for Digital Assets</h1>
+        <h1 data-reveal style={{ "--reveal-delay": "80ms" }}>AI-Powered Market Intelligence</h1>
         <p data-reveal style={{ "--reveal-delay": "160ms" }}>
           Transform fragmented market data into actionable intelligence through one unified platform. Detect opportunities, assess risk, monitor market activity, and understand what matters with AI-powered insights
         </p>
         <div className="hero-actions" data-reveal style={{ "--reveal-delay": "240ms" }}>
           <a className="button primary" href={earlyAccessHref}>
             Request Early Access
-          </a>
-          <a className="button secondary" href={docsHref}>
-            Docs
           </a>
         </div>
       </div>

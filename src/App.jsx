@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import atlaixLogo from "../resources/atlaix logo.jpg";
-import heroImage from "../resources/hero section.png";
+import atlaixLogo from "../resources/atlaix logo.webp";
+import heroImage from "../resources/hero section.webp";
 
 const earlyAccessHref = "https://beta.atlaix.com";
 const docsHref = "https://docs.atlaix.com/";

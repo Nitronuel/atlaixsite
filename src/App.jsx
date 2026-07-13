@@ -79,6 +79,12 @@ const engines = [
     body: "Track institutional wallets, capital rotation, and significant on-chain movements to understand where sophisticated market participants are positioning.",
     visual: "linear-gradient(135deg, oklch(27% 0.075 160) 0%, oklch(14% 0.045 154) 52%, oklch(8% 0.03 150) 100%)",
   },
+  {
+    title: "Narrative Intelligence (Coming Soon)",
+    meta: "Market attention",
+    body: "Identify emerging narratives, ecosystem momentum, and market attention before they become widely recognized.",
+    visual: "linear-gradient(135deg, oklch(29% 0.08 148) 0%, oklch(15% 0.046 156) 52%, oklch(8% 0.03 150) 100%)",
+  },
 ];
 
 const faqs = [
